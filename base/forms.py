@@ -7,3 +7,9 @@ class SubjectForm(ModelForm):
         model = Subject
         fields = '__all__'
         exclude = ['user']
+
+class AssignmentForm(ModelForm):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+        exclude = ['user', 'grade']

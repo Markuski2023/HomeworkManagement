@@ -131,6 +131,20 @@ a {
   cursor: pointer;
 }
 
+.avatar {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid var(--color-main);
+}
+
+.avatar img {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .avatar::after {
   content: "";
   display: block;
@@ -146,8 +160,8 @@ a {
 }
 
 .avatar.avatar--small img {
-  width: 5rem;
-  height: 5rem;
+  width: 2.8rem;
+  height: 2.8rem;
 }
 
 .avatar.avatar--small:after {
@@ -379,10 +393,16 @@ a {
   margin-top: 2.4rem;
 }
 
+.grid_test {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 3rem;
+}
+
 .layout > .container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: start;
 }
 
 .layout--3 > .container > div:first-child {
@@ -626,27 +646,17 @@ a {
 
 /*========== Room List Room ==========*/
 
-.grid_test {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 3rem;
-}
-
 .roomListRoom {
   margin-bottom: 2.4rem;
   background-color: var(--color-dark);
   border-radius: 1rem;
   padding: 2rem;
-  height: 15vh;
-  display: flex;
 }
 
 .roomListRoom__header {
   display: flex;
-}
-
-.roomListRoom__header h2 {
-  padding: 5rem;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .roomListRoom__author {
@@ -952,7 +962,7 @@ a {
 
 .room__topRight {
   display: flex;
-  column-gap: 1em;
+  column-gap: 3rem;
 }
 
 .room__topRight svg {
@@ -981,9 +991,8 @@ a {
 .room__box {
   padding-left: 2rem;
   padding-right: 2rem;
-  height: 80.5vh;
-  /* overflow-y: auto; */
-  padding-bottom: 0;
+  height: 40vh;
+  margin-bottom: -8rem;
 }
 
 @media screen and (max-width: 500px) {
@@ -1038,7 +1047,7 @@ a {
 }
 
 .room__conversation {
-  margin-top: 1rem;
+  margin-top: -25rem;
   margin-bottom: 4rem;
   height: 64%;
 }
@@ -1062,7 +1071,6 @@ a {
   border-left: 2px solid var(--color-dark);
   padding-left: 1rem;
   margin: 2rem 0;
-  padding: 2rem;
 }
 
 .thread__top {

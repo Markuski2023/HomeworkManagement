@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from .models import Group, Assignment, Message, Subject
+from .models import Group, Assignment, Message, Subject, Note
 
 admin.site.register(Group)
 admin.site.register(Assignment)
 admin.site.register(Message)
 admin.site.register(Subject)
+admin.site.register(Note)

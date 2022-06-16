@@ -23,11 +23,19 @@
           <form class="form" action="" method="POST">
               {% csrf_token %}
             <div class="form__group">
-              <label for="room_name">Room Name</label>
+              <label for="room_name">Assignment Name</label>
                 {{ form.name }}
             </div>
+              <div class="form__group">
+              <label for="room_body">Description</label>
+                {{ form.body }}
+            </div>
+              <div class="form__group">
+              <label for="room_name">Due date</label>
+                {{ form.due_date }}
+            </div>
             <div class="form__action">
-              <a class="btn btn--dark" href="{% url 'home' %}">Cancel</a>
+              <a class="btn btn--dark" href="{% url 'subject' subject.id %}">Cancel</a>
               <button class="btn btn--main" type="submit">Submit</button>
             </div>
           </form>

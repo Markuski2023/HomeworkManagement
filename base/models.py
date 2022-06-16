@@ -13,7 +13,8 @@ class Subject(models.Model):
 class Assignment(models.Model):
     name = models.CharField(max_length=200)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    # body = models.TextField()
+    body = models.CharField(max_length=500, null=True)
+    grade = models.IntegerField(null=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
@@ -53,7 +54,7 @@ class Message(models.Model):
     def __str__(self):
         return self.body[0:50]
 
-class Notes(models.Model):
+class Note(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     body = models.TextField()
