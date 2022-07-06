@@ -16,14 +16,14 @@
                 </path>
               </svg>
             </a>
-            <h3>Create/Update Study Room</h3>
+            <h3>Create/Update Subject</h3>
           </div>
         </div>
         <div class="layout__body">
           <form class="form" action="" method="POST">
               {% csrf_token %}
             <div class="form__group">
-              <label for="room_name">Room Name</label>
+              <label for="room_name">Subject Name</label>
                 {{ form.name }}
             </div>
             <div class="form__action">

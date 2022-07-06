@@ -1,16 +1,12 @@
     <div class="grid_test">
 {% for subject in subjects %}
-      <a href="{% url 'subject' subject.id %}
-">
+      <a href="{% url 'subject' subject.id %}">
     <div class="roomListRoom">
         <div class="roomListRoom__header">
             <div class="avatar avatar--small">
               <img src="{{ subject.avatar.url }}"/>
-
             </div>
             <h2>{{ subject.name }}</h2>
-        </div>
-        <div class="roomListRoom__content">
         </div>
       </div>
     </a>

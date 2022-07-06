@@ -8,7 +8,7 @@
       <div class="layout__box">
         <div class="layout__boxHeader">
           <div class="layout__boxTitle">
-            <a href="{% url 'home' %}">
+            <a href="{% url 'subject' subject.id %}">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
                 <title>arrow-left</title>
                 <path
@@ -31,7 +31,7 @@
                 {{ form.body }}
             </div>
               <div class="form__group">
-              <label for="room_name">Due date</label>
+              <label for="room_name">Due date (YYYY-M-D HH:MM)</label>
                 {{ form.due_date }}
             </div>
             <div class="form__action">

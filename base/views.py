@@ -1,16 +1,110 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+import smtplib
 
 from .models import Message, Group, Assignment, Subject, Note
+# User
 from .forms import SubjectForm, AssignmentForm
+# UserCreationForm
 
+import smtplib
+
+class Gmail(object):
+    def __init__(self, sender_email, recipient_email, password):
+        self.sender_email = sender_email
+        self.recipient_email = recipient_email
+        self.password = password
+        self.server = 'smtp.gmail.com'
+        self.port = 587
+        session = smtplib.SMTP(self.server, self.port)
+        session.ehlo()
+        session.starttls()
+        session.ehlo
+        session.login(self.sender_email, self.password)
+        self.session = session
+
+    def send_message(self, subject, body):
+        headers = [
+            "From: " + self.sender_email,
+            "Subject: " + subject,
+            "To: " + self.recipient_email,
+            "MIME-Version: 1.0",
+           "Content-Type: text/html"]
+        headers = "\r\n".join(headers)
+        self.session.sendmail(
+            self.sender_email,
+            self.recipient_email,
+            headers + "\r\n\r\n" + body)
+
+def loginPage(request):
+
+    page = 'login'
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, 'User not found...')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Username or password incorrect...')
+
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
+
+def registerPage(request):
+    page = 'register'
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'An error has occurred. Please try again..')
+
+    return render(request, 'base/login_register.html', {'form': form})
+
+def logoutUser(request):
+    logout(request)
+    return redirect('loginPage')
+
+@login_required(login_url='loginPage')
 def home(request):
 
-    subjects = Subject.objects.all()
-    assignments = Assignment.objects.all()
+    now = timezone.now()
+    upcoming = []
 
-    context = {'subjects': subjects, 'assignments': assignments}
+    subjects = Subject.objects.all()
+    assignments = Assignment.objects.order_by('due_date')
+
+    for i in assignments:
+        if i.due_date >= now:
+            upcoming.append(i)
+
+    context = {'subjects': subjects, 'previous': upcoming}
 
     return render(request, 'base/home.html', context)
 
@@ -22,6 +116,16 @@ def subject(request, pk):
     subject_notes = subject.note_set.all().order_by('created')
     assignments = Assignment.objects.all()
     assignments_sorted = Assignment.objects.order_by('due_date')
+
+    # for assignment in assignments:
+    #     if assignment.due_date <= now:
+    #         if assignment.sent_email == False:
+    #             gm = Gmail('markuskinn.test@gmail.com', assignment.subject.user.email, 'kmef wlwr qfbx ksab')
+    #
+    #             gm.send_message("{aname}'s due date has passed".format(aname=assignment.name),
+    #                             "{aname}'s due date has passed. {adate}".format(aname=assignment.name, adate=assignment.due_date))
+    #             assignment.sent_email = True
+
 
     previous = []
     upcoming = []
@@ -72,9 +176,117 @@ def createAssignment(request, pk):
             subject=subject,
             name = request.POST.get('name'),
             body = request.POST.get('body'),
-            due_date = timezone.now()
+            due_date = request.POST.get('due_date'),
         )
         return redirect('subject', pk=subject.id)
 
     context = {'form': form, 'subject': subject}
     return render(request, 'base/assignment_form.html', context)
+
+@login_required(login_url='login')
+def deleteSubject(request, pk):
+    subject = Subject.objects.get(id=pk)
+
+    # if request.user != subject.user:
+    #     return HttpResponse('Youre not allowed here')
+
+    if request.method == 'POST':
+        subject.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj': subject})
+
+@login_required(login_url='login')
+def deleteAssignment(request, pk):
+    assignment = Assignment.objects.get(id=pk)
+    subject = assignment.subject.id
+
+    # if request.user != subject.user:
+    #     return HttpResponse('Youre not allowed here')
+
+    if request.method == 'POST':
+        assignment.delete()
+        return redirect('subject', pk=subject)
+
+    context = {'obj': assignment, 'subject': subject}
+
+    return render(request, 'base/delete.html', context)
+
+@login_required(login_url='login')
+def deleteNote(request, pk):
+    note = Note.objects.get(id=pk)
+    subject = note.subject.id
+
+    # if request.user != subject.user:
+    #     return HttpResponse('Youre not allowed here')
+
+    if request.method == 'POST':
+        note.delete()
+        return redirect('subject', pk=subject)
+
+    context = {'obj': note, 'subject': subject}
+
+    return render(request, 'base/delete.html', context)
+
+@login_required(login_url='login')
+def updateSubject(request, pk):
+    subject = Subject.objects.get(id=pk)
+    form = SubjectForm(instance=subject)
+
+    if request.user != subject.user:
+        return HttpResponse('Youre not allowed here')
+
+    if request.method == 'POST':
+        subject.name = request.POST.get('name')
+
+        subject.save()
+
+        return redirect('home')
+
+    context = {'form': form, 'subject': subject}
+    return render(request, 'base/subject_form.html', context)
+
+@login_required(login_url='login')
+def updateAssignment(request, pk):
+    assignment = Assignment.objects.get(id=pk)
+    subject = assignment.subject
+
+    form = AssignmentForm(instance=assignment)
+
+    # if request.user != subject.user:
+    #     return HttpResponse('Youre not allowed here')
+
+    if request.method == 'POST':
+        assignment.name = request.POST.get('name')
+        assignment.body = request.POST.get('body')
+        assignment.due_date = request.POST.get('due_date')
+
+        assignment.save()
+
+        return redirect('subject', pk=subject.id)
+
+    context = {'form': form, 'assignment': assignment, 'subject': subject}
+    return render(request, 'base/assignment_form.html', context)
+
+def grades(request):
+
+    return render(request, 'base/grades.html')
+
+# def registerPage(request):
+#     page = 'register'
+#     form = UserCreationForm
+#
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.username = user.username.lower()
+#             user.save()
+#             login(request, user)
+#             return redirect('home')
+#         else:
+#             messages.error(request, 'An error has occurred. Please try again..')
+#
+#     return  render(request, 'base/login_register.html', {'form': form})
+
+def group(request):
+    return render(request, 'base/groups.html')

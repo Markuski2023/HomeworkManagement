@@ -1,5 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+
+# class User(AbstractUser):
+#     name = models.CharField(max_length=200, null=True)
+#     email = models.EmailField(unique=True, max_length=200, null=True)
+#     bio = models.TextField(null=True)
+#
+#     avatar = models.ImageField(null=True, default="avatar.svg")
+#
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = []
 
 class Subject(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -18,6 +30,7 @@ class Assignment(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField()
+    sent_email = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-due_date']
