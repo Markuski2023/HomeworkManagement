@@ -221,3 +221,6 @@ def group(request):
 
 def test(request):
     return 0
+
+def test_function(request):
+    return 0
