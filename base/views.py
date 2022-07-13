@@ -218,9 +218,3 @@ def grades(request):
 
 def group(request):
     return render(request, 'base/groups.html')
-
-def test(request):
-    return 0
-
-def test_function(request):
-    return 0
