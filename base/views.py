@@ -145,9 +145,6 @@ def createAssignment(request, pk):
 def deleteSubject(request, pk):
     subject = Subject.objects.get(id=pk)
 
-    # if request.user != subject.user:
-    #     return HttpResponse('Youre not allowed here')
-
     if request.method == 'POST':
         subject.delete()
         return redirect('home')
@@ -157,9 +154,6 @@ def deleteSubject(request, pk):
 def deleteAssignment(request, pk):
     assignment = Assignment.objects.get(id=pk)
     subject = assignment.subject.id
-
-    # if request.user != subject.user:
-    #     return HttpResponse('Youre not allowed here')
 
     if request.method == 'POST':
         assignment.delete()
@@ -173,9 +167,6 @@ def deleteAssignment(request, pk):
 def deleteNote(request, pk):
     note = Note.objects.get(id=pk)
     subject = note.subject.id
-
-    # if request.user != subject.user:
-    #     return HttpResponse('Youre not allowed here')
 
     if request.method == 'POST':
         note.delete()
@@ -210,9 +201,6 @@ def updateAssignment(request, pk):
 
     form = AssignmentForm(instance=assignment)
 
-    # if request.user != subject.user:
-    #     return HttpResponse('Youre not allowed here')
-
     if request.method == 'POST':
         assignment.name = request.POST.get('name')
         assignment.body = request.POST.get('body')
@@ -230,3 +218,6 @@ def grades(request):
 
 def group(request):
     return render(request, 'base/groups.html')
+
+def test(request):
+    return 0
