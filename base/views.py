@@ -226,25 +226,7 @@ def updateAssignment(request, pk):
     return render(request, 'base/assignment_form.html', context)
 
 def grades(request):
-
     return render(request, 'base/grades.html')
-
-# def registerPage(request):
-#     page = 'register'
-#     form = UserCreationForm
-#
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.username = user.username.lower()
-#             user.save()
-#             login(request, user)
-#             return redirect('home')
-#         else:
-#             messages.error(request, 'An error has occurred. Please try again..')
-#
-#     return  render(request, 'base/login_register.html', {'form': form})
 
 def group(request):
     return render(request, 'base/groups.html')
