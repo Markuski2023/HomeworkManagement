@@ -7,41 +7,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-import smtplib
-
 from .models import Message, Group, Assignment, Subject, Note
 # User
 from .forms import SubjectForm, AssignmentForm
 # UserCreationForm
-
-import smtplib
-
-class Gmail(object):
-    def __init__(self, sender_email, recipient_email, password):
-        self.sender_email = sender_email
-        self.recipient_email = recipient_email
-        self.password = password
-        self.server = 'smtp.gmail.com'
-        self.port = 587
-        session = smtplib.SMTP(self.server, self.port)
-        session.ehlo()
-        session.starttls()
-        session.ehlo
-        session.login(self.sender_email, self.password)
-        self.session = session
-
-    def send_message(self, subject, body):
-        headers = [
-            "From: " + self.sender_email,
-            "Subject: " + subject,
-            "To: " + self.recipient_email,
-            "MIME-Version: 1.0",
-           "Content-Type: text/html"]
-        headers = "\r\n".join(headers)
-        self.session.sendmail(
-            self.sender_email,
-            self.recipient_email,
-            headers + "\r\n\r\n" + body)
 
 def loginPage(request):
 
