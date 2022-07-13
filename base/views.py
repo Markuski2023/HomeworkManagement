@@ -85,16 +85,6 @@ def subject(request, pk):
     assignments = Assignment.objects.all()
     assignments_sorted = Assignment.objects.order_by('due_date')
 
-    # for assignment in assignments:
-    #     if assignment.due_date <= now:
-    #         if assignment.sent_email == False:
-    #             gm = Gmail('markuskinn.test@gmail.com', assignment.subject.user.email, 'kmef wlwr qfbx ksab')
-    #
-    #             gm.send_message("{aname}'s due date has passed".format(aname=assignment.name),
-    #                             "{aname}'s due date has passed. {adate}".format(aname=assignment.name, adate=assignment.due_date))
-    #             assignment.sent_email = True
-
-
     previous = []
     upcoming = []
 
