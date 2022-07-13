@@ -1,5 +1,6 @@
     <div class="grid_test">
 {% for subject in subjects %}
+        {% if request.user == subject.user %}
       <a href="{% url 'subject' subject.id %}">
     <div class="roomListRoom">
         <div class="roomListRoom__header">
@@ -10,5 +11,6 @@
         </div>
       </div>
     </a>
+    {% endif %}
 {% endfor %}
 </div>

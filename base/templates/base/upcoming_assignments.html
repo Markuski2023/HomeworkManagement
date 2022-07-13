@@ -18,9 +18,9 @@
           {% endif %}
         </div>
               {% for assignment in upcoming %}
+              {% if request.user == assignment.subject.user %}
         {% if assignment.subject.id == subject.id %}
       <div class="activities__box">
-
         <div class="activities__boxContent">
           <h2 style="font-size: 25px;">“<a href="">{{ assignment.name }}</a>”</h2>
 {#            {% url 'subject' assignment.subject.id %}#}
@@ -29,7 +29,6 @@
               <p>{{ assignment.body }}</p>
           </div>
         </div>
-      {% if request.user == assignment.subject.user %}
           <div class="roomListRoom__actions">
             <a href="{% url 'delete-assignment' assignment.id %}">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -66,7 +65,7 @@
                 </svg>
               </a>
           </div>
-        {% endif %}
       </div>
+        {% endif %}
         {% endif %}
     {% endfor %}

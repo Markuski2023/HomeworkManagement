@@ -3,7 +3,8 @@
         <h2>Upcoming Assignments</h2>
       </div>
     {% for assignment in previous %}
-      <div class="activities__box">
+        {% if request.user == assignment.subject.user %}
+            <div class="activities__box">
         <div class="activities__boxHeader roomListRoom__header">
           <a href="" class="roomListRoom__author">
 {#              {% url 'subject' assignment.subject.id %}#}
@@ -35,5 +36,6 @@
           </div>
         </div>
       </div>
+        {% endif %}
     {% endfor %}
  </div>
