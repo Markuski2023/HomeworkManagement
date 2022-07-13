@@ -40,7 +40,6 @@ def loginPage(request):
     return render(request, 'base/login_register.html', context)
 
 def registerPage(request):
-    page = 'register'
     form = UserCreationForm()
 
     if request.method == 'POST':
