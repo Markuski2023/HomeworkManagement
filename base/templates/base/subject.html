@@ -72,6 +72,7 @@
             <div class="room__conversation">
               <div class="threads scroll">
                 {% for note in subject_notes %}
+                    {% if note.user == request.user %}
                 <div class="thread">
                   <div class="thread__top">
                     <div class="thread__author">
@@ -94,6 +95,7 @@
                     {{ note.body }}
                   </div>
                 </div>
+                    {% endif %}
                   {% endfor %}
               </div>
             </div>
