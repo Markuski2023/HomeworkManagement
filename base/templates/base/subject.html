@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
+    {% if subject.user == request.user %}
 <main class="layout layout--3">
   <div class="container">
     <!-- Upcoming Start -->
@@ -117,4 +118,7 @@
     <!-- Upcoming End -->
   </div>
 </main>
+        {% else %}
+        <h1>404: Not found</h1>
+    {% endif %}
 {% endblock content %}

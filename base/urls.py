@@ -20,5 +20,5 @@ urlpatterns = [
     path('update-subject/<str:pk>/', views.updateSubject, name='update-subject'),
     path('update-assignment/<str:pk>/', views.updateAssignment, name='update-assignment'),
 
-    path('group/', views.group, name='group'),
+    path('groups/', views.groups, name='groups'),
 ]

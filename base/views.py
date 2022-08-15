@@ -216,5 +216,6 @@ def updateAssignment(request, pk):
 def grades(request):
     return render(request, 'base/grades.html')
 
-def group(request):
+@login_required(login_url='login')
+def groups(request):
     return render(request, 'base/groups.html')
