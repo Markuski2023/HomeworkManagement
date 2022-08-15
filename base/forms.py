@@ -20,3 +20,9 @@ class AssignmentForm(ModelForm):
         model = Assignment
         fields =['name', 'body', 'due_date']
         exclude = ['user', 'grade']
+
+class GroupForm(ModelForm):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+        exclude = ['host']

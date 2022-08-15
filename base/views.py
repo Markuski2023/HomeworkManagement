@@ -9,7 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from .models import Message, Group, Assignment, Subject, Note
 # User
-from .forms import SubjectForm, AssignmentForm
+from .forms import SubjectForm, AssignmentForm, GroupForm
 # UserCreationForm
 
 def loginPage(request):
@@ -227,13 +227,14 @@ def groups(request):
 
 @login_required(login_url='login')
 def createGroup(request):
-    form = SubjectForm()
+    form = GroupForm()
 
     if request.method == 'POST':
 
-        Subject.objects.create(
-            user = request.user,
+        Group.objects.create(
+            host = request.user,
             name = request.POST.get('name'),
+            description = request.POST.get('description'),
         )
         return redirect('home')
 
