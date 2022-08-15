@@ -218,4 +218,24 @@ def grades(request):
 
 @login_required(login_url='login')
 def groups(request):
-    return render(request, 'base/groups.html')
+
+    groups = Group.objects.all()
+
+    context = {'groups': groups}
+
+    return render(request, 'base/groups.html', context)
+
+@login_required(login_url='login')
+def createGroup(request):
+    form = SubjectForm()
+
+    if request.method == 'POST':
+
+        Subject.objects.create(
+            user = request.user,
+            name = request.POST.get('name'),
+        )
+        return redirect('home')
+
+    context = {'form': form}
+    return render(request, 'base/group_form.html', context)
