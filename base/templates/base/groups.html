@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="roomList__header">
-        <a class="btn btn--main" href="{% url 'create-subject' %}">
+        <a class="btn btn--main" href="{% url 'create-group' %}">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
             <title>add</title>
             <path
@@ -39,13 +39,13 @@
         </a>
       </div>
 
-        {% include 'base/subject_component.html' %}
+        {% include 'base/group_component.html' %}
 
     </div>
     <!-- Room List End -->
 
     <!-- Activities Start -->
-      {% include 'base/activity_component.html'%}
+      {% include 'base/my_groups_component.html'%}
     <!-- Activities End -->
   </div>
 </main>

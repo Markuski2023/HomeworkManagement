@@ -1,0 +1,15 @@
+    <div class="grid_test">
+{% for group in groups %}
+      <a href="{% url 'subject' group.id %}">
+    <div class="roomListRoom">
+        <div class="roomListRoom__header">
+            <div class="avatar avatar--small">
+              <img src="{{ group.avatar.url }}"/>
+            </div>
+            <h2>{{ group.name }}</h2>
+            <p>{{ group.description }}</p>
+        </div>
+      </div>
+    </a>
+{% endfor %}
+</div>

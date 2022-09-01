@@ -12,6 +12,7 @@ urlpatterns = [
 
     path('create-subject/', views.createSubject, name='create-subject'),
     path('create-assignment/<str:pk>', views.createAssignment, name='create-assignment'),
+    path('create-group/', views.createGroup, name='create-group'),
 
     path('delete-subject/<str:pk>/', views.deleteSubject, name='delete-subject'),
     path('delete-note/<str:pk>/', views.deleteNote, name='delete-note'),
